@@ -1,4 +1,4 @@
-import Sidebar from "./components/Sidebar";
+import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 
 export const metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
           <Sidebar />
 
           {/* 右侧内容 */}
-          <main className="flex-1 p-4 bg-gray-50 overflow-auto">{children}</main>
+          <main className="flex-1 bg-gray-50 overflow-auto">{children}</main>
         </div>
       </body>
     </html>
