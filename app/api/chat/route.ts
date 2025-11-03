@@ -1,41 +1,65 @@
-// // app/api/chat/route.js
-// import { CozeAPI, COZE_CN_BASE_URL,RoleType,ChatEventType } from '@coze/api';
-
-// export async function POST(req) {
-//   const { message } = await req.json();
-
-//   // 初始化 SDK 客户端
-//   const client = new CozeAPI({
-//     baseURL: COZE_CN_BASE_URL,
-//     token: process.env.COZE_API_KEY, // 你的 pat_xxx
-//   });
-
-//   const stream = await client.chat.stream({
-//       bot_id: process.env.COZE_BOT_ID,
-//       additional_messages: [
-//         {
-//           role: RoleType.User,
-//           content: '你好',
-//           content_type: 'text',
-//         },
-//       ],
-//   });
-//   for await (const part of stream) {
-//   if (part.event === ChatEventType.CONVERSATION_MESSAGE_DELTA) {
-//       process.stdout.write(part.data.content);
-//     }
-//   }
-//   return Response.json({ messages: [{ content: '' }] });
-// }
-
 export async function POST(req: Request) {
   const { message } = await req.json();
+  const COZE_TOKEN = process.env.COZE_API_KEY!;
+  const BOT_ID = process.env.COZE_BOT_ID!;
+  const BASE_URL = 'https://api.coze.cn/v3';
 
-  // 这里你可以调用 Coze SDK 或 GPT API
-  const reply = `你发送了: ${message}`; // 临时模拟 AI 回复
+  // 直接返回一个流式 Response
+  const cozeRes = await fetch(`${BASE_URL}/chat`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${COZE_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      bot_id: BOT_ID,
+      user_id: 'user-123',
+      stream: true,
+      additional_messages: [
+        {
+          role: 'user',
+          content: message,
+          type: 'question',
+          content_type: 'text',
+        },
+      ],
+    }),
+  });
+  console.log(cozeRes)
+  // 创建一个可读流，逐行转发 Coze 的输出
+  const stream = new ReadableStream({
+    async start(controller) {
+      const reader = cozeRes.body?.getReader();
+      const decoder = new TextDecoder();
 
-  return new Response(
-    JSON.stringify({ messages: [{ role: "assistant", content: reply }] }),
-    { status: 200, headers: { "Content-Type": "application/json" } }
-  );
+      if (!reader) {
+        controller.error('No stream found in response');
+        return;
+      }
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+
+          controller.enqueue(chunk);
+        }
+      } catch (err) {
+        console.error('读取流失败', err);
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  // 设置返回头，告诉前端这是一个流式事件流
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream; charset=utf-8',
+      'Cache-Control': 'no-cache, no-transform',
+      Connection: 'keep-alive',
+    },
+  });
 }

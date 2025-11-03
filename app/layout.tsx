@@ -1,26 +1,42 @@
+"use client";
 import Sidebar from "@/components/Sidebar";
+import { GlobalProvider, useGlobal } from "@/context/GlobalContext";
 import "./globals.css";
 
-export const metadata = {
-  title: "聊天应用",
-  description: "左侧导航 + GPT 聊天",
-};
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { rightPanelComponent } = useGlobal();
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+  return (
+    <div className="flex h-screen overflow-hidden">
+      {/* 左侧 Sidebar */}
+      <Sidebar />
+
+      {/* 中间容器：聊天 + 右侧 panel */}
+      <div className="flex flex-1 min-w-0">
+        {/* 聊天框 */}
+        <div className="flex-1 bg-gray-50">
+          {children}
+        </div>
+
+        {/* 右侧动态 panel */}
+        {rightPanelComponent && (
+          <div className="flex-1 max-w-[50%] bg-white border-l border-gray-300 overflow-auto p-4">
+            {rightPanelComponent}
+          </div>
+        )}
+      </div>
+    </div>
+
+  );
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN">
       <body>
-        <div className="flex h-screen">
-          {/* 左侧导航 */}
-          <Sidebar />
-
-          {/* 右侧内容 */}
-          <main className="flex-1 bg-gray-50 overflow-auto">{children}</main>
-        </div>
+        <GlobalProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </GlobalProvider>
       </body>
     </html>
   );

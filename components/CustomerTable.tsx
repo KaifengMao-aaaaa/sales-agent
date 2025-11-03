@@ -96,7 +96,7 @@ export default function CustomerTable() {
       </div>
 
       {/* 表格区 */}
-      <div className="flex-1 w-full p-2 rounded-lg shadow-md bg-white border border-gray-200 overflow-auto">
+      <div className="flex-1 w-full p-6 rounded-lg shadow-md bg-white border border-gray-200 overflow-auto">
         <table className="w-full table-fixed divide-y divide-gray-200">
           <thead className="bg-gray-50">
             {table.getHeaderGroups().map((headerGroup) => (
