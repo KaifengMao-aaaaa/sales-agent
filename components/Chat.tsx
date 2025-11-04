@@ -267,7 +267,7 @@ export default function Chat() {
           <div
             key={idx}
             className={`max-w-[70%] p-4 rounded-xl break-words shadow-md mb-2 ${
-              m.role === "user" ? "bg-blue-100 self-end text-right" : "bg-gray-100 self-start text-left"
+              m.role === "user" ? "bg-blue-100 self-end text-left" : "bg-gray-100 self-start text-left"
             }`}
           >
             <div className="prose max-w-none prose-headings:text-blue-700 prose-a:text-blue-500 hover:prose-a:underline">
