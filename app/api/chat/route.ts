@@ -1,18 +1,18 @@
 export async function POST(req: Request) {
-  const { message } = await req.json();
-  const COZE_TOKEN = process.env.COZE_API_KEY!;
-  const BOT_ID = process.env.COZE_BOT_ID!;
+  const { message, bot_id, conversation_id, auth_token } = await req.json();
   const BASE_URL = 'https://api.coze.cn/v3';
-
+  const url = conversation_id
+  ? `${BASE_URL}/chat?conversation_id=${conversation_id}`
+  : `${BASE_URL}/chat`;
   // 直接返回一个流式 Response
-  const cozeRes = await fetch(`${BASE_URL}/chat`, {
+  const cozeRes = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${COZE_TOKEN}`,
+      Authorization: `Bearer ${auth_token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      bot_id: BOT_ID,
+      bot_id: bot_id,
       user_id: 'user-123',
       stream: true,
       additional_messages: [
@@ -25,7 +25,6 @@ export async function POST(req: Request) {
       ],
     }),
   });
-  console.log(cozeRes)
   // 创建一个可读流，逐行转发 Coze 的输出
   const stream = new ReadableStream({
     async start(controller) {

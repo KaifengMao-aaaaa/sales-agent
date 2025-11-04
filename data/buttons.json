@@ -1,0 +1,16 @@
+{
+  "pat_884FZyTN14aTDInqnqd2k9aTvc5okD3WJLgR5AS6oKQJ573v8rqbpkkLkSarO5Mz": [
+    {
+      "name": "查看全部客户",
+      "description": "查看所有客户信息"
+    },
+    {
+      "name": "展示全部模板",
+      "description": "展示全部的模板"
+    },
+    {
+      "name": "展示全部配置",
+      "description": "展示全部的配置"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* 右侧动态 panel */}
         {rightPanelComponent && (
-          <div className="flex-1 max-w-[50%] bg-white border-l border-gray-300 overflow-auto p-4">
+          <div className="flex-1 max-w-[50%] bg-white border-l border-gray-300 overflow-auto">
             {rightPanelComponent}
           </div>
         )}
