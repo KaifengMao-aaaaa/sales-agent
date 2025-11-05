@@ -71,6 +71,13 @@ npm run dev
 
 ![alt text](./assets/image10.png)
 
+### Preview
+
+* 网站: https://sales-agent-tau-ten.vercel.app
+* token:  pat_Y2aYrDKGQlHZc7PPuh7e78YR3ToVHloRG2Z1M0Q4aLQ9aHPaDElAaErCeQ8YQQN3
+* sales_bot_id: 7566574944109428790
+* UI_bot_id: 7567954840874614794
+
 
 ## 结构设计
 ### 技术栈（Tech Stack）
