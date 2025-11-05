@@ -36,7 +36,7 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   const [rightPanelComponent, setRightPanelComponent] = useState<ReactNode | null>(null);
   const [buttons, setButtons] = useState<ButtonItem[]>([]);
   const [globalConfig, setGlobalConfig] = useState<{ token?: string; salesBotId?: string; uiBotId?: string }>({});
-  const [sendPrompt, setSendPrompt] = useState<(prompt: string) => Promise<void>>();
+  const [sendPrompt, setSendPrompt] = useState< (prompt: string) => Promise<void>>();
   const refreshButtons = async () => {
     if (!globalConfig.token) {
       console.warn("⚠️ token 不存在，跳过加载按钮");

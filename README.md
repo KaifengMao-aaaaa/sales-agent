@@ -141,8 +141,7 @@ npm run dev
 
 * Chat Component：聊天消息显示、SSE 流解析、消息滚动
 
-* CustomerTable：数据表格显示 + Tooltip + CSV 导出
-
+* CustomerTable， DataTable：数据表格显示 + Tooltip + CSV 导出
 * API Routes：
 
     * /api/chat → 与 Coze API 对接

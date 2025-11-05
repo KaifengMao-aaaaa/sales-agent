@@ -11,7 +11,6 @@ export default function Sidebar() {
   const [token, setToken] = useState("");
   const [salesBotId, setSalesBotId] = useState("");
   const [uiBotId, setUiBotId] = useState("");
-
   // 初始化时从 localStorage 加载配置
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("appConfig") || "{}");
@@ -26,7 +25,6 @@ export default function Sidebar() {
     if (setGlobalConfig) setGlobalConfig(newConfig);
     setShowConfig(false);
   };
-
   return (
     <aside
       className={`flex flex-col bg-gray-200 text-gray-900 shadow-lg transition-all duration-300
@@ -53,6 +51,7 @@ export default function Sidebar() {
                 <button
                   onClick={async () => {
                     setActiveButton(btn.name);
+                  
                     if (sendPrompt) await sendPrompt(btn.description);
                   }}
                   className={`flex items-center gap-3 w-full px-2 py-2 rounded transition-all duration-200
